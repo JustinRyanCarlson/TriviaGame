@@ -1,3 +1,7 @@
+body {
+    background-image: url("../images/office.jpg");
+}
+
 .time-remain-margins {
     margin-top: 0px;
     margin-bottom: 30px;
