@@ -1,0 +1,16 @@
+.time-remain-margins {
+    margin-top: 0px;
+    margin-bottom: 30px;
+}
+
+.jumbotron {
+    margin-bottom: 10px;
+}
+
+.hover {
+    padding: 10px 0px;
+}
+
+.hover:hover {
+    background-color: lightblue;
+}
