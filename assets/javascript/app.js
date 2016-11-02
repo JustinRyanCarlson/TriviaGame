@@ -96,36 +96,24 @@ $("#answer1").click(function() {
     clearInterval(triviaTimer);
     userAnswer = 'a';
     answerChecker(userAnswer);
-    currentQuestion++;
-    triviaDOM();
-    resetTimer();
 });
 
 $("#answer2").click(function() {
     clearInterval(triviaTimer);
     userAnswer = 'b';
     answerChecker(userAnswer);
-    currentQuestion++;
-    triviaDOM();
-    resetTimer();
 });
 
 $("#answer3").click(function() {
     clearInterval(triviaTimer);
     userAnswer = 'c';
     answerChecker(userAnswer);
-    currentQuestion++;
-    triviaDOM();
-    resetTimer();
 });
 
 $("#answer4").click(function() {
     clearInterval(triviaTimer);
     userAnswer = 'd';
     answerChecker(userAnswer);
-    currentQuestion++;
-    triviaDOM();
-    resetTimer();
 });
 
 
@@ -144,6 +132,7 @@ function resetTimer() {
 function timer() {
     if (timeLeft < 1) {
         clearInterval(triviaTimer);
+        timesUp();
     } else {
         timeLeft--;
         $('#time-remaining').html(timeLeft);
@@ -153,8 +142,9 @@ function timer() {
 function answerChecker(userGuess) {
     if (userGuess === triviaQandA.ans[currentQuestion]) {
         correctAnsCounter++;
+        correct();
     } else {
-
+        incorrect();
     }
 }
 
@@ -170,8 +160,36 @@ function triviaDOM() {
     }
 }
 
+function timesUp() {
+    $('#answer-indicator').html('Times up! The correct answer was ' + triviaQandA.ans[currentQuestion].toUpperCase() + '.');
+    pauseClear();
+}
+
+function correct() {
+    $('#answer-indicator').html('Correct!');
+    pauseClear();
+}
+
+function incorrect() {
+    $('#answer-indicator').html('Your guess was incorrect. The correct answer was ' + triviaQandA.ans[currentQuestion].toUpperCase() + '.');
+    pauseClear();
+}
+
 function displayResults() {
     $('.time-remain-margins').html('');
     $('.ans').html('');
-    $('#question').html('You answered ' + correctAnsCounter + ' questions out of 10 correctly')
+    $('#question').html('You answered ' + correctAnsCounter + ' questions out of 10 correctly').addClass('text-center')
+}
+
+function pauseClear() {
+    var pauseTimer = setTimeout(pause, 6000)
+
+    function pause() {
+        $('#answer-indicator').html('');
+        currentQuestion++;
+        triviaDOM();
+        resetTimer();
+    }
+    clearTimeout(pause);
+
 }
