@@ -1,8 +1,10 @@
-/*body {
+body {
     background-image: url("../images/office.jpg");
 }
-*/
 
+.transparent {
+    background: rgba(255, 255, 255, 0.9);
+}
 
 .time-remain-margins {
     margin-top: 0px;
@@ -19,4 +21,5 @@
 
 .hover:hover {
     background-color: lightblue;
+    box-shadow: 0 0 0 1px black inset;
 }

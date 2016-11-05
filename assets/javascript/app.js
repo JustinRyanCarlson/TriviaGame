@@ -3,6 +3,7 @@ var timeLeft = 15;
 var userAnswer = 'null';
 var currentQuestion = 0;
 var correctAnsCounter = 0;
+var clickOff = true;
 var triviaQandA = {
     q0: {
         q: "1. What ringtone song played repeatedly on Andy's cell phone when Jim hid it in the ceiling at the office?",
@@ -77,44 +78,83 @@ var triviaQandA = {
     ans: ["d", "a", "b", "a", "c", "c", "d", "c", "b", "c"]
 }
 
+
+// these two lines hide the answer divs and reset button so the user cannot click on them before the game starts
+$('#answer1, #answer2, #answer3, #answer4').toggle();
+$('#reset-button').hide();
+
+
+
+
 //
 // CLICK EVENTS ----------------------------------------------------------------------------------------------------------
 //
 
 
+// the code in this block runs when the user clicks the start button
+// when the button is clicked, it hides itself, removes the text-center class from the element with an ID of question
+// toggles the answer divs on, and calls the triviaDOM and resetTimer functions
 $("#start-button").click(function() {
     $('#start-button').hide();
+    $('#question').removeClass('text-center');
+    $('#answer1, #answer2, #answer3, #answer4').toggle();
     triviaDOM();
     resetTimer();
+});
 
+// this button appears after the game has ended and when clicked, resets the game to be played again
+$("#reset-button").click(function() {
+    $('#reset-button').hide();
+    userAnswer = 'null';
+    currentQuestion = 0;
+    correctAnsCounter = 0;
+    $('#answer2, #answer3, #answer4, .time-remain-margins, .ans').toggle();
+    triviaDOM();
+    resetTimer();
 });
 
 
+// the next four on click functions set the clickOff boolean to false so that extra clicks or click on other answers when
+// the timer is running wont be registered, clear the setInterval() timer, take the users guess depending on what anwser 
+// they picked and pass it to the anwserChecker() function
 
-
-$("#answer1").click(function() {
-    clearInterval(triviaTimer);
-    userAnswer = 'a';
-    answerChecker(userAnswer);
+$("#answer1").on('click', function() {
+    if (clickOff === true) {
+        clickOff = false;
+        clearInterval(triviaTimer);
+        userAnswer = 'a';
+        answerChecker(userAnswer);
+    }
 });
 
-$("#answer2").click(function() {
-    clearInterval(triviaTimer);
-    userAnswer = 'b';
-    answerChecker(userAnswer);
+$("#answer2").on('click', function() {
+    if (clickOff === true) {
+        clickOff = false;
+        clearInterval(triviaTimer);
+        userAnswer = 'b';
+        answerChecker(userAnswer);
+    }
 });
 
-$("#answer3").click(function() {
-    clearInterval(triviaTimer);
-    userAnswer = 'c';
-    answerChecker(userAnswer);
+$("#answer3").on('click', function() {
+    if (clickOff === true) {
+        clickOff = false;
+        clearInterval(triviaTimer);
+        userAnswer = 'c';
+        answerChecker(userAnswer);
+    }
 });
 
-$("#answer4").click(function() {
-    clearInterval(triviaTimer);
-    userAnswer = 'd';
-    answerChecker(userAnswer);
+$("#answer4").on('click', function() {
+    if (clickOff === true) {
+        clickOff = false;
+        clearInterval(triviaTimer);
+        userAnswer = 'd';
+        answerChecker(userAnswer);
+    }
 });
+
+
 
 
 
@@ -123,6 +163,8 @@ $("#answer4").click(function() {
 //
 
 
+// these next two functions are the countdown timer for the trivia game, it resets itself to 15 everytime it is called so the user will
+// always have 15 seconds to complete the question
 function resetTimer() {
     timeLeft = 15;
     $('#time-remaining').html(timeLeft);
@@ -139,57 +181,71 @@ function timer() {
     }
 }
 
+// this function checks if the users guess is equal to the correct answer found in the triviaQandA object and if it is, incriments
+// the correct answer counter, displays to the user they were correct and calls the pauseClear function. If the user guess does not
+// equal the correct answer, it displays that the user was wrong and calls the pauseClear() function
 function answerChecker(userGuess) {
     if (userGuess === triviaQandA.ans[currentQuestion]) {
         correctAnsCounter++;
-        correct();
+        $('#answer-indicator').html('Correct!');
+        pauseClear();
     } else {
-        incorrect();
+        $('#answer-indicator').html('Your guess was incorrect. The correct answer was ' + triviaQandA.ans[currentQuestion].toUpperCase() + '.');
+        pauseClear();
     }
 }
 
-function triviaDOM() {
-    if (currentQuestion < 9) {
-        $('#question').html(triviaQandA["q" + currentQuestion].q);
-        $('#answer1').html(triviaQandA["q" + currentQuestion].a1);
-        $('#answer2').html(triviaQandA["q" + currentQuestion].a2);
-        $('#answer3').html(triviaQandA["q" + currentQuestion].a3);
-        $('#answer4').html(triviaQandA["q" + currentQuestion].a4);
-    } else {
-        displayResults();
-    }
-}
-
+// this function is called when the timer for the question reaches zero and the user has not chosen a guess. It will tell the user
+// that time is up and call the pauseClear() function
 function timesUp() {
     $('#answer-indicator').html('Times up! The correct answer was ' + triviaQandA.ans[currentQuestion].toUpperCase() + '.');
     pauseClear();
 }
 
-function correct() {
-    $('#answer-indicator').html('Correct!');
-    pauseClear();
-}
-
-function incorrect() {
-    $('#answer-indicator').html('Your guess was incorrect. The correct answer was ' + triviaQandA.ans[currentQuestion].toUpperCase() + '.');
-    pauseClear();
-}
-
-function displayResults() {
-    $('.time-remain-margins').html('');
-    $('.ans').html('');
-    $('#question').html('You answered ' + correctAnsCounter + ' questions out of 10 correctly').addClass('text-center')
-}
-
-function pauseClear() {
-    var pauseTimer = setTimeout(pause, 6000)
-
-    function pause() {
-        $('#answer-indicator').html('');
-        currentQuestion++;
-        triviaDOM();
-        resetTimer();
+// this function updates the DOM with a new question and answer to pick from if there are still questions to use, if not the game
+// ends and displays the results to the user
+function triviaDOM() {
+    if (currentQuestion <= 9) {
+        $('#question').html(triviaQandA["q" + currentQuestion].q);
+        $('#answer1').html(triviaQandA["q" + currentQuestion].a1);
+        $('#answer2').html(triviaQandA["q" + currentQuestion].a2);
+        $('#answer3').html(triviaQandA["q" + currentQuestion].a3);
+        $('#answer4').html(triviaQandA["q" + currentQuestion].a4);
+        clickOff = true;
+    } else {
+        displayResults();
     }
+}
+
+// this function is used when the game ends to displays the end results to the user and an corresponding .GIF based on how the did
+// it will also show the reset button to restart the game if they want to
+function displayResults() {
+    $('#answer2, #answer3, #answer4, .time-remain-margins, .ans').toggle();
+    $('#reset-button').show().html('Reset');
+    if (correctAnsCounter < 4) {
+        $('#question').html('You answered ' + correctAnsCounter + ' out of 10 questions correctly <br>').addClass('text-center');
+        $('#question').append('<img src="assets/images/lowScore.gif">');
+    } else if (correctAnsCounter < 8) {
+        $('#question').html('You answered ' + correctAnsCounter + ' out of 10 questions correctly <br>').addClass('text-center');
+        $('#question').append('<img src="assets/images/medScore.gif">');
+    } else {
+        $('#question').html('You answered ' + correctAnsCounter + ' out of 10 questions correctly <br>').addClass('text-center');
+        $('#question').append('<img src="assets/images/highScore.gif">');
+    }
+}
+
+// these next two functions are used to pause the game while the correct answer or "correct" is displayed to the user
+function pauseClear() {
+    var pauseTimer = setTimeout(pause, 5000)
     clearTimeout(pause);
 
+}
+
+function pause() {
+    $('#answer-indicator').html('');
+    currentQuestion++;
+    triviaDOM();
+    if (currentQuestion < 10) {
+        resetTimer();
+    }
 }

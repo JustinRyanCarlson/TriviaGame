@@ -4,42 +4,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='shortcut icon' href='assets/images/favicon.ico' type='image/x-icon'>
     <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://bootswatch.com/sandstone/bootstrap.css" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
     <title>The Office Trivia Game</title>
 </head>
-<!-- add some new font this time too -->
 
 <body>
     <div class="container">
         <div class="row">
-            <h1 class="text-center jumbotron">The Office Trivia Game</h1>
+            <h1 class="text-center jumbotron transparent">The Office Trivia Game</h1>
         </div>
-        <div class="row">
-            <h5 class="text-center time-remain-margins">Time Remaining:&nbsp;<span id="time-remaining">15</span>&nbsp;seconds</h5>
-        </div>
-        <div class="row">
-            <button class="btn btn-primary center-block" id=start-button>Start</button>
-        </div>
-        <div class="row">
-            <h4 id="answer-indicator" class="text-center"></h4>
-        </div>
-        <div class="row">
-            <h3 id="question"></h3>
-        </div>
-        <div class="row">
-            <h5 id="answer1" class="hover ans text-center"></h5>
-        </div>
-        <div class="row">
-            <h5 id="answer2" class="hover ans text-center"></h5>
-        </div>
-        <div class="row">
-            <h5 id="answer3" class="hover ans text-center"></h5>
-        </div>
-        <div class="row">
-            <h5 id="answer4" class="hover ans text-center"></h5>
+        <div class="row jumbotron transparent">
+            <div class="row">
+                <h5 class="text-center time-remain-margins">Time Remaining:&nbsp;<span id="time-remaining">15</span>&nbsp;seconds</h5>
+            </div>
+            <div class="row">
+                <button class="btn btn-primary center-block" id="start-button">Start</button>
+            </div>
+            <div class="row">
+                <button class="btn btn-primary center-block" id="reset-button">Start</button>
+            </div>
+            <div class="row">
+                <h4 id="answer-indicator" class="text-center"></h4>
+            </div>
+            <div class="row">
+                <h3 id="question" class="text-center">Welcome to The Office Trivia! You will have 15 seconds to anwser each question. Press start to begin</h3>
+            </div>
+            <div class="row">
+                <h5 id="answer1" class="hover ans text-center"></h5>
+            </div>
+            <div class="row">
+                <h5 id="answer2" class="hover ans text-center"></h5>
+            </div>
+            <div class="row">
+                <h5 id="answer3" class="hover ans text-center"></h5>
+            </div>
+            <div class="row">
+                <h5 id="answer4" class="hover ans text-center"></h5>
+            </div>
         </div>
     </div>
     <script src="assets/javascript/app.js"></script>
